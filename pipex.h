@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 22:25:49 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/28 01:55:25 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/28 20:10:12 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@
 #include <stdio.h>
 #include <string.h>
 #include "./libft/libft.h"
+
+typedef struct s_pipex
+{
+	char	**cmd1;
+	char	**cmd2;
+	int		fd[2];
+	int		pid[2];
+	int		fd1;
+	int		fd2;
+	int 	i;
+}				t_pipex;
 
 void parsing(int ac, char **av, char **env);
 void errorshow(int type);
