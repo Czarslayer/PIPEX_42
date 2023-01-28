@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mabahani <mabahani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:57 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/28 03:25:21 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/28 18:50:49 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void errorshow(int type)
 	if (type == 2)
 		write(2,"no such file or directory ..\n",30);
 }
+
 int main(int ac, char **av, char **env)
 {
 	int		fd[2];
@@ -37,8 +38,12 @@ int main(int ac, char **av, char **env)
 	parsing(ac, av, env);
 	if (ac != 5)
 		errorshow(1);
-	
 	fd2 = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if(fd2 == -1)
+	{
+		errorshow(2);
+		exit(1);
+	}
 	pipe(fd);
 	pid[0] = fork();
 	if (pid[0] == 0)
@@ -58,18 +63,22 @@ int main(int ac, char **av, char **env)
 	}
 	else
 	{
-		waitpid(pid[0], NULL, 0);
+
 		pid[1] = fork();
 		if (pid[1] == 0)
 		{
 			dup2(fd[0], 0);
 			dup2(fd2, 1);
+			
 			close(fd[1]);
-			while(1);
 			execve(av[3], cmd2, env);
 			errorshow(0);
 			exit(127);
 		}
+		close(fd[0]);
+		close(fd[1]);	
+		waitpid(pid[0], NULL, 0);
+		waitpid(pid[1], NULL, 0);
 	}
 	return (0);
 }

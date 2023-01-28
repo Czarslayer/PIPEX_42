@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mabahani <mabahani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 22:25:49 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/28 01:55:25 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/28 18:32:33 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,18 @@
 #include <string.h>
 #include "./libft/libft.h"
 
-void parsing(int ac, char **av, char **env);
-void errorshow(int type);
+typedef struct t_args{
+    int		fd[2];
+	int		pid[2];
+	int		fd1;
+	int		fd2;
+	char	**cmd1;
+	char	**cmd2;
+	int		i;
+}   l_args;
+
+void    parsing(int ac, char **av, char **env);
+void    errorshow(int type);
 
 
 #endif
