@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 22:25:49 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/28 20:10:12 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/29 00:53:12 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_pipex
 
 void parsing(int ac, char **av, char **env);
 void errorshow(int type);
+void argemmenterror(int i, char **av);
 
 
 #endif

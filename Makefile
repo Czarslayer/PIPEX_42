@@ -1,6 +1,6 @@
 NAME = pipex
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 SRC = pipex.c\
 	parsing.c\

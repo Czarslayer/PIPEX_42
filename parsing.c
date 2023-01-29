@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 22:20:47 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/28 02:28:07 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/29 01:14:10 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char *get_first_cmd(char *cmd, char **path)
 	int i;
 	if (access(cmd, X_OK) == 0)
 		return(cmd);
-	if(cmd[0] == '/')
+	if (!cmd || cmd[0] == '/')
 		return NULL;
 	i = 0;
 	tmp = NULL;
@@ -63,7 +63,9 @@ char *get_first_cmd(char *cmd, char **path)
 		free(tmp);
 		i++;
 	}
-	return (tmp);
+	if (access(tmp, X_OK) == 0)
+		return (tmp);
+	return (NULL);
 }
 
 char *get_second_cmd(char *cmd, char **path)
@@ -73,7 +75,7 @@ char *get_second_cmd(char *cmd, char **path)
 
 	if (access(cmd, X_OK) == 0)
 		return(cmd);
-	if(cmd[0] == '/')
+	if (!cmd || cmd[0] == '/')
 		return NULL;
 	i = 0;
 	tmp = NULL;
@@ -85,7 +87,9 @@ char *get_second_cmd(char *cmd, char **path)
 		free(tmp);
 		i++;
 	}
-	return (tmp);
+	if (access(tmp, X_OK) == 0)
+		return (tmp);
+	return (NULL);
 }
 
 void parsing(int ac, char **av, char **env)
