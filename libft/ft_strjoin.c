@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 20:43:31 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/25 23:29:19 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:33:42 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		while (s1[i] != '\0')
 			ptr[j++] = s1[i++];
 		i = 0;
-            ptr[j++] = '/';
+		ptr[j++] = '/';
 		while (s2[i] != '\0')
 			ptr[j++] = s2[i++];
 		ptr[j] = '\0';

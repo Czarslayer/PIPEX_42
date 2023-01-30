@@ -6,19 +6,22 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:57 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/29 01:05:31 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:49:29 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void errorshow(int type)
+void	errorshow(int type)
 {
 	if (type == 1)
-		write(2,"not enoght arguments\n",22);
+	{
+		write(2, "not enoght arguments\n", 22);
+		exit(1);
+	}
 }
 
-void argemmenterror(int i, char **av)
+void	argemmenterror(int i, char **av)
 {
 	if (i == 1)
 	{
@@ -28,35 +31,41 @@ void argemmenterror(int i, char **av)
 	}
 }
 
-void first_child_process(t_pipex *pipex, char **av, char **env)
+void	first_child_process(t_pipex *pipex, char **av, char **env)
 {
 	close(pipex->fd[0]);
 	dup2(pipex->fd[1], 1);
 	close(pipex->fd[1]);
 	pipex->fd1 = open(av[1], O_RDONLY);
 	if (pipex->fd1 == -1)
-	{perror("open"); exit(1);}
+	{
+		perror("open");
+		exit(1);
+	}
 	dup2(pipex->fd1, 0);
 	close(pipex->fd1);
 	execve(av[2], pipex->cmd1, env);
-		argemmenterror(1, pipex->cmd1);
+	argemmenterror(1, pipex->cmd1);
 }
 
-void second_child_process(t_pipex *pipex, char **av, char **env)
+void	second_child_process(t_pipex *pipex, char **av, char **env)
 {
 	close(pipex->fd[1]);
 	dup2(pipex->fd[0], 0);
 	close(pipex->fd[0]);
 	pipex->fd2 = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->fd2 == -1)
-	{perror("open"); exit(1);}
+	{
+		perror("open");
+		exit(1);
+	}
 	dup2(pipex->fd2, 1);
 	close(pipex->fd2);
 	execve(av[3], pipex->cmd2, env);
-		argemmenterror(1, pipex->cmd2);
+	argemmenterror(1, pipex->cmd2);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_pipex		pipex;
 
@@ -76,11 +85,9 @@ int main(int ac, char **av, char **env)
 		if (pipex.pid[1] == 0)
 			second_child_process(&pipex, av, env);
 		close(pipex.fd[0]);
-		close(pipex.fd[1]);	
+		close(pipex.fd[1]);
 		waitpid(pipex.pid[0], NULL, 0);
 		waitpid(pipex.pid[1], NULL, 0);
 	}
-	
 	return (0);
 }
-
