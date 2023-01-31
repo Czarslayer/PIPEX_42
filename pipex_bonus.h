@@ -1,41 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 22:25:49 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 01:24:19 by mabahani         ###   ########.fr       */
+/*   Created: 2023/01/30 22:12:50 by mabahani          #+#    #+#             */
+/*   Updated: 2023/01/31 01:20:40 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 # include <fcntl.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <stdio.h>
-# include <string.h>
-# include "./libft/libft.h"
-# include "pipex_bonus.h"
+# include <errno.h>
+#include "./libft/libft.h"
+#include "./get_next_line.h"
+#include "pipex.h"
 
-typedef struct s_pipex
-{
-	char	**cmd1;
-	char	**cmd2;
-	int		fd[2];
-	int		pid[2];
-	int		fd1;
-	int		fd2;
-	int		i;
-}				t_pipex;
+# define READ 0
+# define WRITE 1
 
-void	parsing(int ac, char **av, char **env);
+void	parsing_bon(int ac, char **av, char **env);
 void	errorshow(int type);
 void	argemmenterror(int i, char **av);
+void	here_doc(char **av);
+char	*readline(char *str);
+void	double_pointer(char **ptr);
+char	*get_path_line(char **env);
+char	*get_the_cmd(char *cmd, char **path);
 
 #endif

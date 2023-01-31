@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 22:20:47 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 01:23:43 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/31 01:21:12 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	parsing(int ac, char **av, char **env)
+void	parsing_bon(int ac, char **av, char **env)
 {
 	char	**path;
 	char	*line;
@@ -23,10 +23,10 @@ void	parsing(int ac, char **av, char **env)
 	line = get_path_line(env);
 	path = ft_split(line, ':');
 	free(line);
-	cmd1 = ft_split(av[2], ' ');
-	cmd2 = ft_split(av[3], ' ');
-	av[2] = get_the_cmd(cmd1[0], path);
-	av[3] = get_the_cmd(cmd2[0], path);
+	cmd1 = ft_split(av[3], ' ');
+	cmd2 = ft_split(av[4], ' ');
+	av[3] = get_the_cmd(cmd1[0], path);
+	av[4] = get_the_cmd(cmd2[0], path);
 	double_pointer(cmd1);
 	double_pointer(cmd2);
 	double_pointer(path);
