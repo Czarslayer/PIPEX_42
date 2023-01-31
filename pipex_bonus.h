@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 22:12:50 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 01:20:40 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:07:12 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <sys/stat.h>
 # include <stdio.h>
 # include <errno.h>
-#include "./libft/libft.h"
-#include "./get_next_line.h"
+#include "./libft_tools/libft.h"
+#include "./gnl/get_next_line.h"
 #include "pipex.h"
 
 # define READ 0

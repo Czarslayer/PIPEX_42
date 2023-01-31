@@ -19,8 +19,8 @@
 # include <stdio.h>
 # include <limits.h>
 
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
+size_t	ft_strlen_gnl(const char *s);
+char	*ft_strdup_gnl(const char *s1);
 char	*get_next_line(int fd);
 int		finder(char *s, int c);
 char	*line_reader(int fd, char *temp);

@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 18:12:03 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 02:22:55 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/31 18:57:50 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*line_af_newline(char *temp)
 		i++;
 	if (!temp[i] || !temp[i + 1])
 		return (free(temp), NULL);
-	line = (char *)malloc((ft_strlen(temp) - i));
+	line = (char *)malloc((ft_strlen_gnl(temp) - i));
 	if (!line)
 		return (NULL);
 	i++;
@@ -73,9 +73,9 @@ static char	*ft_strjoin(char *s1, char *s2)
 	int		j;
 
 	if (!s1)
-		s1 = ft_strdup("");
-	len2 = ft_strlen(s2);
-	len1 = ft_strlen(s1);
+		s1 = ft_strdup_gnl("");
+	len2 = ft_strlen_gnl(s2);
+	len1 = ft_strlen_gnl(s1);
 	i = 0;
 	j = 0;
 	ptr = malloc((len1 + len2 + 1) * sizeof(char));

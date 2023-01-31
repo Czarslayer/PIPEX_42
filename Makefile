@@ -4,47 +4,54 @@ NAME_BONUS = Pipex
 
 CFLAGS = -Wall -Wextra -Werror
 
+CC = gcc
+
 SRC = pipex.c\
 	parsing.c\
 	parsing_utils.c\
 
 BNS_SRC = pipex_bonus.c\
 	parsing_bonus.c\
-	get_next_line.c\
-	get_next_line_utils.c\
+	./gnl/get_next_line.c\
+	./gnl/get_next_line_utils.c\
 	bonus_utils.c\
 	parsing_utils.c\
 
-CC = gcc
+LIBFT_SRC = 	./libft_tools/ft_putstr_fd.c\
+	./libft_tools/ft_split.c\
+	./libft_tools/ft_strdup.c\
+	./libft_tools/ft_strjoin.c\
+	./libft_tools/ft_strlen.c\
+	./libft_tools/ft_strncmp.c\
+	./libft_tools/ft_strnstr.c\
+
 
 OBJ = $(SRC:.c=.o)
 
 BNS_OBJ = $(BNS_SRC:.c=.o)
 
-all: libft.a $(NAME)
+LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
 
-libft.a:
-	make -C libft
-	cp libft/libft.a .
+all: $(NAME)
 
-$(NAME): $(OBJ) libft.a
-	$(CC) $(CFLAGS) $(OBJ) libft.a -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT_OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_OBJ) -o $(NAME)
 
-bonus: libft.a $(NAME_BONUS)
+bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(BNS_OBJ)
-	$(CC) $(CFLAGS) $(BNS_OBJ) libft.a -o $(NAME) 
+$(NAME_BONUS): $(BNS_OBJ) $(LIBFT_OBJ)
+	$(CC) $(CFLAGS) $(BNS_OBJ) $(LIBFT_OBJ) -o $(NAME) 
 
 clean:
-	@rm -f $(OBJ) $(BNS_OBJ)
-	make -C libft fclean
+	@rm -f $(OBJ) $(BNS_OBJ) $(LIBFT_OBJ)
 
 fclean: clean
-	@clear
-	@rm -f $(NAME) libft.a $(NAME_BONUS)
+	@rm -f $(NAME)
 
 re: fclean all
 
 czar: all clean
+
+czarb: bonus clean
 
 .PHONY:all clean fclean re czar bonus
