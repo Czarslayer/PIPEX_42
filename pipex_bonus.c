@@ -6,28 +6,29 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 22:12:24 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 18:14:11 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:44:25 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	errorshow(int type)
+void	argemmenterror_bonus(int i, char **av)
 {
-	if (type == 1)
+	if (i == 0)
 	{
-		write(2, "Not Enoght Arguments \nOr You Wrote The 'here_doc' Name Wrong\n", 60);
+		ft_putstr_fd("\e[1;31mERROR:\e[0;31m Not the right amount of arguments\
+		\e[0m\n", 2);
+		ft_putstr_fd("\e[0;31mPs: check if you wrote \"here_doc\" right.\e[0m\n", 2);
+		ft_putstr_fd("==> \e[1;92musage: ./pipex here_doc limitter", 2);
+		ft_putstr_fd(" cmd1 cmd2 file2\e[0m\n", 2);
 		exit(1);
 	}
-}
-
-void	argemmenterror(int i, char **av)
-{
-	if (i == 1)
+	else if (i == 1)
 	{
-		write(2, "command not found: ", 20);
+		ft_putstr_fd("\e[0;31mcommand not found: \e[0m", 2);
 		write(2, av[0], ft_strlen(av[0]));
 		write(2, "\n", 1);
+		exit(127);
 	}
 }
 
@@ -45,7 +46,7 @@ void	first_child_process(t_pipex *pipex, char **av, char **env)
 	dup2(pipex->fd1, 0);
 	close(pipex->fd1);
 	execve(av[3], pipex->cmd1, env);
-	argemmenterror(1, pipex->cmd1);
+	argemmenterror_bonus(1, pipex->cmd1);
 }
 
 void	second_child_process(t_pipex *pipex, char **av, char **env)
@@ -62,25 +63,28 @@ void	second_child_process(t_pipex *pipex, char **av, char **env)
 	dup2(pipex->fd2, 1);
 	close(pipex->fd2);
 	execve(av[4], pipex->cmd2, env);
-	argemmenterror(1, pipex->cmd2);
+	argemmenterror_bonus(1, pipex->cmd2);
+}
+
+void	command_splitter_bonus(t_pipex *pipex, char **av)
+{
+	pipex->cmd1 = ft_split(av[3], ' ');
+	pipex->cmd2 = ft_split(av[4], ' ');
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_pipex		pipex;
-	
-	pipex.i = 0;
-	if(ac == 6 && !ft_strcmp(av[1], "here_doc"))
+
+	if (ac == 6 && !ft_strcmp(av[1], "here_doc"))
 		here_doc(av);
 	else
-		errorshow(1);
-	pipex.cmd1 = ft_split(av[3], ' ');
-	pipex.cmd2 = ft_split(av[4], ' ');
-	parsing_bon(ac, av, env);
+		argemmenterror_bonus(0, av);
+	parsing_bon(ac, av, env, &pipex);
 	pipe(pipex.fd);
 	pipex.pid[0] = fork();
 	if (pipex.pid[0] == 0)
-	 	first_child_process(&pipex, av, env);
+		first_child_process(&pipex, av, env);
 	else
 	{
 		pipex.pid[1] = fork();
@@ -89,7 +93,10 @@ int	main(int ac, char **av, char **env)
 		close(pipex.fd[0]);
 		close(pipex.fd[1]);
 		waitpid(pipex.pid[0], NULL, 0);
-		waitpid(pipex.pid[1], NULL, 0);
+		waitpid(pipex.pid[1], &pipex.status, 0);
+		unlink("here_doc");
+		if (WIFEXITED(pipex.status))
+			exit(WEXITSTATUS(pipex.status));
 	}
-	return (unlink("here_doc"),0);
+	return (0);
 }

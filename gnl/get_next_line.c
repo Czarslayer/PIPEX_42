@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 18:12:03 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 18:57:50 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:13:11 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ char	*line_bf_newline(char *temp)
 		line[i] = temp[i];
 		i++;
 	}
-	// if (temp[i] == '\n')
-	// 	line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
 }

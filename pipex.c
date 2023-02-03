@@ -6,28 +6,27 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:57 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/30 21:49:29 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:49:09 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	errorshow(int type)
-{
-	if (type == 1)
-	{
-		write(2, "not enoght arguments\n", 22);
-		exit(1);
-	}
-}
-
 void	argemmenterror(int i, char **av)
 {
-	if (i == 1)
+	if (i == 0)
 	{
-		write(2, "command not found: ", 20);
+		ft_putstr_fd("\e[1;31mERROR:\e[0;31m Not the right amount of arguments\
+		\e[0m\n", 2);
+		ft_putstr_fd("==> \e[1;92musage: ./pipex file1 cmd1 cmd2 file2\e[0m\n", 2);
+		exit(1);
+	}
+	else if (i == 1)
+	{
+		ft_putstr_fd("\e[0;31mcommand not found: \e[0m", 2);
 		write(2, av[0], ft_strlen(av[0]));
 		write(2, "\n", 1);
+		exit(127);
 	}
 }
 
@@ -65,16 +64,20 @@ void	second_child_process(t_pipex *pipex, char **av, char **env)
 	argemmenterror(1, pipex->cmd2);
 }
 
+void	command_splitter(t_pipex *pipex, char **av)
+{
+	pipex->cmd1 = ft_split(av[2], ' ');
+	pipex->cmd2 = ft_split(av[3], ' ');
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_pipex		pipex;
 
-	pipex.i = 0;
-	pipex.cmd1 = ft_split(av[2], ' ');
-	pipex.cmd2 = ft_split(av[3], ' ');
-	parsing(ac, av, env);
 	if (ac != 5)
-		errorshow(1);
+		argemmenterror(0, av);
+	command_splitter(&pipex, av);
+	parsing(ac, av, env);
 	pipe(pipex.fd);
 	pipex.pid[0] = fork();
 	if (pipex.pid[0] == 0)
@@ -87,7 +90,9 @@ int	main(int ac, char **av, char **env)
 		close(pipex.fd[0]);
 		close(pipex.fd[1]);
 		waitpid(pipex.pid[0], NULL, 0);
-		waitpid(pipex.pid[1], NULL, 0);
+		waitpid(pipex.pid[1], &pipex.status, 0);
+		if (WIFEXITED(pipex.status))
+			exit(WEXITSTATUS(pipex.status));
 	}
 	return (0);
 }

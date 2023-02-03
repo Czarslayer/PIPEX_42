@@ -6,7 +6,7 @@
 /*   By: mabahani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 01:13:41 by mabahani          #+#    #+#             */
-/*   Updated: 2023/01/31 16:32:28 by mabahani         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:40:48 by mabahani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ void	here_doc(char **av)
 	line = readline("here_doc => ");
 	while (ft_strcmp(line, av[2]))
 	{
-		if(!line)
-			break;
-		free(line);
+		if (!line)
+			break ;
+		
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
+		free(line);
 		line = readline("here_doc => ");
 	}
 	free(line);
